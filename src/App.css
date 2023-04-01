@@ -36,3 +36,16 @@
     transform: rotate(360deg);
   }
 }
+
+.out-stocked {
+  color: red;
+}
+
+label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.category {
+  text-align: center;
+}
