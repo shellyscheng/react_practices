@@ -22,8 +22,6 @@ function ProductTable({data, inStockedOnly, searchTex}) {
   const filteredData = data.filter(el => el.name.toLowerCase().includes(searchTex.toLowerCase()))
   const categories = [...new Set(filteredData.map(el => el.category))]
 
-  console.log("searchText", searchTex)
-
   categories.forEach(category => {
    row.push(<ProductCategoryRow category={category}/>)
    filteredData.forEach(product => {
@@ -51,16 +49,16 @@ function ProductTable({data, inStockedOnly, searchTex}) {
   )
 }
 
-function SearchBar({setInStockedOnly, searchTex, setSearchText}) {
+function SearchBar({onInStockedOnlyChange, searchTex, onSearchTextChange}) {
   return(
     <form>
         <input 
           type="text" 
           placeholder='Search...' 
-          onChange={e => setSearchText(e.target.value)} 
+          onChange={(e) => onSearchTextChange(e.target.value)} 
           value={searchTex}/>
         <label>
-          <input type="checkbox" onChange={() => setInStockedOnly(prevState => !prevState)}/> Only show products in stock
+          <input type="checkbox" onChange={(e) => onInStockedOnlyChange(e.target.checked)}/> Only show products in stock
         </label>
     </form>
   )
@@ -73,7 +71,7 @@ function FilterableProductTable({data}) {
   
   return(
     <div>
-      <SearchBar setInStockedOnly={setInStockedOnly} searchTex={searchText} setSearchText={setSearchText}/>
+      <SearchBar onInStockedOnlyChange={setInStockedOnly} searchTex={searchText} onSearchTextChange={setSearchText}/>
       <ProductTable data={data} searchTex={searchText} inStockedOnly={inStockedOnly}/>
     </div>
   )
@@ -82,39 +80,7 @@ function FilterableProductTable({data}) {
 
 function App() {
 
-  return (<FilterableProductTable data={data}/>
-    
-    // <div className="App">
-    //   <div className='filterable-head' >
-    //     <input type="test" />
-    //     <input type="checkbox" /> Only show products in stock
-    //   </div>
-    //   <div style={{display: "flex", justifyContent: "center"}}>
-    //     <table className='table'>
-    //       <tr>
-    //         <th>Name</th>
-    //         <th>Price</th>
-    //       </tr>
-    //       <tr>
-    //         <td colspan="2"><b>{data[0].category}</b></td>
-    //       </tr>
-    //       {data.map(el => el.category === "Fruits" 
-    //         ? <tr><td className={el.stocked ? "" : "out-stocked"}>{el.name}</td> 
-    //           <td>{el.price}</td></tr> 
-    //         : null)}
-    //       <tr>
-    //         <td colspan="2"><b>{data[3].category}</b></td>
-    //       </tr>
-    //       {data.map(el => el.category === "Vegetables" 
-    //         ? <tr><td className={el.stocked ? "" 
-    //         : "out-stocked"}>{el.name}</td> 
-    //         <td>{el.price}</td></tr> 
-    //         : null)}
-    //     </table>
-    //   </div>
-      
-    // </div>
-  );
+  return <FilterableProductTable data={data}/>
 }
 
 export default App;
